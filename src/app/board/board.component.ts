@@ -41,12 +41,13 @@ export class BoardComponent {
     return true;
   }
 
-  checkForWin(column: number, row: number): boolean {
-    let yellowTestString: string = "yellowyellowyellowyellow";
-    let redTestString: string = "redredredred";
-    let columnString: string = this.board[column].map((cell: CellComponent) => { return cell.color; }).join("");
-    let rowString: string = this.board.map((column: CellComponent[]) => { return column[row].color; }).join("");
-    return columnString.includes(redTestString) || columnString.includes(yellowTestString)
-        || rowString.includes(redTestString) || rowString.includes(yellowTestString);
+  checkForWin(column: number, row: number, color: string): boolean {
+    let testString: string = color + color + color + color;
+    let stringsToTest: string[] = [];
+    stringsToTest.push(this.board[column].map((cell: CellComponent) => { return cell.color; }).join(""));
+    stringsToTest.push(this.board.map((column: CellComponent[]) => { return column[row].color; }).join(""));
+    return stringsToTest.reduce((result: boolean, stringToTest: string) => {
+      return result || stringToTest.includes(testString);
+    }, false);
   }
 }

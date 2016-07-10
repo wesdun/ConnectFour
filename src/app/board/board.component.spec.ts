@@ -50,7 +50,7 @@ describe("BoardComponent", () => {
     board.playDisc(column, "yellow");
     board.playDisc(column, "yellow");
     board.playDisc(column, "yellow");
-    expect(board.checkForWin(column, row)).toBeTruthy();
+    expect(board.checkForWin(column, row, "yellow")).toBeTruthy();
   });
 
   it("should detect four discs horizontally", () => {
@@ -58,6 +58,20 @@ describe("BoardComponent", () => {
     board.playDisc(1, "yellow");
     board.playDisc(2, "yellow");
     board.playDisc(3, "yellow");
-    expect(board.checkForWin(3, 5)).toBeTruthy();
+    expect(board.checkForWin(3, 5, "yellow")).toBeTruthy();
+  });
+
+  xit("should detect four discs diagonally", () => {
+    board.playDisc(0, "yellow");
+    board.playDisc(1, "red");
+    board.playDisc(1, "yellow");
+    board.playDisc(2, "red");
+    board.playDisc(2, "red");
+    board.playDisc(2, "yellow");
+    board.playDisc(3, "red");
+    board.playDisc(3, "red");
+    board.playDisc(3, "red");
+    board.playDisc(3, "yellow");
+    expect(board.checkForWin(3, 2, "yellow")).toBeTruthy();
   });
 });
