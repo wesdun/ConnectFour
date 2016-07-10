@@ -49,34 +49,28 @@ export class BoardComponent {
     let diagCol: number;
     let diagRow: number;
     let diagUpString: string = "";
+    let diagDownString: string = "";
 
-    if (column + row >= 5) {
-      diagCol = column + row - 5;
-      diagRow = 5;
-    } else {
-      diagCol = 0;
-      diagRow = column + row;
-    }
+    diagRow = Math.min(5, column + row);
+    diagCol = column + row - diagRow;
+
     while (diagCol < this.board.length && diagRow >= 0) {
       diagUpString += this.board[diagCol][diagRow].color;
       diagCol++;
       diagRow--;
     }
+    stringsToTest.push(diagUpString);
 
-    if (column - row >= 0) {
-      diagCol = column - row;
-      diagRow = 0;
-    } else {
-      diagCol = 0;
-      diagRow = row - column;
-    }
+    diagRow = Math.max(0, row - column);
+    diagCol = Math.max(0, column - row);
+
     while (diagCol < this.board.length && diagRow < this.board[diagCol].length) {
-      diagUpString += this.board[diagCol][diagRow].color;
+      diagDownString += this.board[diagCol][diagRow].color;
       diagCol++;
       diagRow++;
     }
 
-    stringsToTest.push(diagUpString);
+    stringsToTest.push(diagDownString);
 
     return stringsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
