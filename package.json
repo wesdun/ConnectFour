@@ -1,0 +1,53 @@
+{
+  "name": "connect-four",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "npm run serve",
+    "test": "gulp test",
+    "test:dev": "gulp test --dev",
+    "serve": "gulp serve",
+    "serve:dev": "gulp serve --dev",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "gulp": "gulp",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "core-js": "^2.4.0",
+    "lodash": "^4.13.1",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "5.0.0-beta.6",
+    "systemjs": "0.19.27",
+    "zone.js": "^0.6.12"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.12.3",
+    "concurrently": "^2.0.0",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-if": "^2.0.0",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.0",
+    "http-server": "^0.9.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-jasmine": "^0.3.8",
+    "karma-systemjs": "^0.14.0",
+    "tsconfig-glob": "^0.4.3",
+    "tslint": "^3.9.0",
+    "typescript": "^1.8.9",
+    "typings": "^0.7.9",
+    "yargs": "^4.7.1"
+  }
+}

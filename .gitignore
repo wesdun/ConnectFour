@@ -1,0 +1,7 @@
+typings/
+node_modules/
+dist/
+.idea/
+spec-js/
+build/
+debug.log
