@@ -46,23 +46,31 @@ export class BoardComponent {
     let stringsToTest: string[] = [];
     stringsToTest.push(this.board[column].map((cell: CellComponent) => { return cell.color; }).join(""));
     stringsToTest.push(this.board.map((column: CellComponent[]) => { return column[row].color; }).join(""));
-    let diagCol: number;
-    let diagRow: number;
-    let diagUpString: string = "";
-    let diagDownString: string = "";
+    stringsToTest.push(this.createDiagDownString(column, row));
+    stringsToTest.push(this.createDiagUpString(column, row));
 
-    diagRow = Math.min(5, column + row);
-    diagCol = column + row - diagRow;
+    return stringsToTest.reduce((result: boolean, stringToTest: string) => {
+      return result || stringToTest.includes(testString);
+    }, false);
+  }
+
+  private createDiagDownString(column: number, row: number): string {
+    let diagUpString: string = "";
+    let diagRow: number = Math.min(5, column + row);
+    let diagCol: number = column + row - diagRow;
 
     while (diagCol < this.board.length && diagRow >= 0) {
       diagUpString += this.board[diagCol][diagRow].color;
       diagCol++;
       diagRow--;
     }
-    stringsToTest.push(diagUpString);
+    return diagUpString;
+  }
 
-    diagRow = Math.max(0, row - column);
-    diagCol = Math.max(0, column - row);
+  private createDiagUpString(column: number, row: number): string {
+    let diagDownString: string = "";
+    let diagRow: number = Math.max(0, row - column);
+    let diagCol: number = Math.max(0, column - row);
 
     while (diagCol < this.board.length && diagRow < this.board[diagCol].length) {
       diagDownString += this.board[diagCol][diagRow].color;
@@ -70,10 +78,6 @@ export class BoardComponent {
       diagRow++;
     }
 
-    stringsToTest.push(diagDownString);
-
-    return stringsToTest.reduce((result: boolean, stringToTest: string) => {
-      return result || stringToTest.includes(testString);
-    }, false);
+    return diagDownString;
   }
 }
