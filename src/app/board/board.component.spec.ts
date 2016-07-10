@@ -61,7 +61,7 @@ describe("BoardComponent", () => {
     expect(board.checkForWin(3, 5, "yellow")).toBeTruthy();
   });
 
-  xit("should detect four discs diagonally", () => {
+  it("should detect four discs diagonally", () => {
     board.playDisc(0, "yellow");
     board.playDisc(1, "red");
     board.playDisc(1, "yellow");
@@ -73,5 +73,59 @@ describe("BoardComponent", () => {
     board.playDisc(3, "red");
     board.playDisc(3, "yellow");
     expect(board.checkForWin(3, 2, "yellow")).toBeTruthy();
+  });
+
+  it("should detect four discs diagonally upward in upper quandrant", () => {
+    board.playDisc(0, "red");
+    board.playDisc(0, "yellow");
+    board.playDisc(1, "red");
+    board.playDisc(1, "red");
+    board.playDisc(1, "yellow");
+    board.playDisc(2, "red");
+    board.playDisc(2, "red");
+    board.playDisc(2, "red");
+    board.playDisc(2, "yellow");
+    board.playDisc(3, "red");
+    board.playDisc(3, "red");
+    board.playDisc(3, "red");
+    board.playDisc(3, "red");
+    board.playDisc(3, "yellow");
+    expect(board.checkForWin(3, 1, "yellow")).toBeTruthy();
+  });
+
+  it("should detect four discs diagonally downward", () => {
+    board.playDisc(0, "yellow");
+    board.playDisc(0, "yellow");
+    board.playDisc(0, "yellow");
+    board.playDisc(0, "red");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "red");
+    board.playDisc(2, "yellow");
+    board.playDisc(2, "red");
+    board.playDisc(3, "red");
+    expect(board.checkForWin(3, 5, "red")).toBeTruthy();
+  });
+
+  it("should detect four discs diagonally downward in upper quadrant", () => {
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "yellow");
+    board.playDisc(1, "red");
+    board.playDisc(2, "yellow");
+    board.playDisc(2, "yellow");
+    board.playDisc(2, "yellow");
+    board.playDisc(2, "yellow");
+    board.playDisc(2, "red");
+    board.playDisc(3, "yellow");
+    board.playDisc(3, "yellow");
+    board.playDisc(3, "yellow");
+    board.playDisc(3, "red");
+    board.playDisc(4, "yellow");
+    board.playDisc(4, "yellow");
+    board.playDisc(4, "red");
+    expect(board.checkForWin(4, 3, "red")).toBeTruthy();
   });
 });

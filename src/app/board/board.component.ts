@@ -46,6 +46,38 @@ export class BoardComponent {
     let stringsToTest: string[] = [];
     stringsToTest.push(this.board[column].map((cell: CellComponent) => { return cell.color; }).join(""));
     stringsToTest.push(this.board.map((column: CellComponent[]) => { return column[row].color; }).join(""));
+    let diagCol: number;
+    let diagRow: number;
+    let diagUpString: string = "";
+
+    if (column + row >= 5) {
+      diagCol = column + row - 5;
+      diagRow = 5;
+    } else {
+      diagCol = 0;
+      diagRow = column + row;
+    }
+    while (diagCol < this.board.length && diagRow >= 0) {
+      diagUpString += this.board[diagCol][diagRow].color;
+      diagCol++;
+      diagRow--;
+    }
+
+    if (column - row >= 0) {
+      diagCol = column - row;
+      diagRow = 0;
+    } else {
+      diagCol = 0;
+      diagRow = row - column;
+    }
+    while (diagCol < this.board.length && diagRow < this.board[diagCol].length) {
+      diagUpString += this.board[diagCol][diagRow].color;
+      diagCol++;
+      diagRow++;
+    }
+
+    stringsToTest.push(diagUpString);
+
     return stringsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
     }, false);
