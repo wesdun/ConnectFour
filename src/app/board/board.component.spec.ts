@@ -14,18 +14,18 @@ describe("BoardComponent", () => {
   });
 
   it("should get cell for given row and column", () => {
-    expect(board.getCell(0, 5) instanceof CellComponent).toBeTruthy();
+    expect(board.getCell(0, 5)).toEqual("");
   });
 
   it("should play disc", () => {
     board.playDisc(0, "yellow");
-    expect(board.getCell(0, 5).color).toEqual("yellow");
+    expect(board.getCell(0, 5)).toEqual("yellow");
   });
 
   it("should play 2nd disc in column in correct spot", () => {
     board.playDisc(0, "yellow");
     board.playDisc(0, "red");
-    expect(board.getCell(0, 4).color).toEqual("red");
+    expect(board.getCell(0, 4)).toEqual("red");
   });
 
   it("should return false if playing disc on full column", () => {
@@ -35,12 +35,12 @@ describe("BoardComponent", () => {
     board.playDisc(0, "red");
     board.playDisc(0, "yellow");
     board.playDisc(0, "red");
-    expect(board.playDisc(0, "yellow")).toBeFalsy();
+    expect(board.playDisc(0, "yellow")).toEqual(-1);
   });
 
   it("should return false if playing disc to column that doesn't exist", () => {
-    expect(board.playDisc(-1, "")).toBeFalsy();
-    expect(board.playDisc(7, "")).toBeFalsy();
+    expect(board.playDisc(-1, "")).toEqual(-1);
+    expect(board.playDisc(7, "")).toEqual(-1);
   });
 
   it("should detect four discs vertically", () => {

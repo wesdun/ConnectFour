@@ -6,10 +6,12 @@ import * as _ from "lodash";
   moduleId: module.id,
   selector: "cf-board",
   templateUrl: "board.component.html",
+  styleUrls: ["board.component.css"],
+  directives: [CellComponent]
 })
 
 export class BoardComponent {
-  board: CellComponent[][];
+  board: string[][];
 
   constructor() {
   }
@@ -19,7 +21,7 @@ export class BoardComponent {
     for (let i: number = 0; i < 7; i++) {
       this.board.push([]);
       for (let j: number = 0; j < 6; j++) {
-        this.board[i].push(new CellComponent());
+        this.board[i].push("");
       }
     }
   }
@@ -28,24 +30,32 @@ export class BoardComponent {
     this.createBoard();
   }
 
-  getCell(column: number, row: number): CellComponent {
+  getCell(column: number, row: number): string {
     return this.board[column][row];
   }
 
-  playDisc(column: number, color: string): boolean {
-    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: CellComponent) => { return cell.isEmpty(); });
+  playDisc(column: number, color: string): number {
+    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return cell === ""; });
     if (cellToChangeIndex === -1) {
-      return false;
+      return -1;
     }
-    this.board[column][cellToChangeIndex].color = color;
-    return true;
+    this.board[column][cellToChangeIndex] = color;
+
+    return cellToChangeIndex;
+  }
+
+  takeTurn(column: number, color: string): void {
+    let row: number = this.playDisc(column, color);
+    if (this.checkForWin(column, row, color)) {
+      console.log(color + " wins");
+    }
   }
 
   checkForWin(column: number, row: number, color: string): boolean {
     let testString: string = color + color + color + color;
     let stringsToTest: string[] = [];
-    stringsToTest.push(this.board[column].map((cell: CellComponent) => { return cell.color; }).join(""));
-    stringsToTest.push(this.board.map((column: CellComponent[]) => { return column[row].color; }).join(""));
+    stringsToTest.push(this.board[column].map((cell: string) => { return cell; }).join(""));
+    stringsToTest.push(this.board.map((column: string[]) => { return column[row]; }).join(""));
     stringsToTest.push(this.createDiagDownString(column, row));
     stringsToTest.push(this.createDiagUpString(column, row));
 
@@ -60,7 +70,7 @@ export class BoardComponent {
     let diagCol: number = column + row - diagRow;
 
     while (diagCol < this.board.length && diagRow >= 0) {
-      diagUpString += this.board[diagCol][diagRow].color;
+      diagUpString += this.board[diagCol][diagRow];
       diagCol++;
       diagRow--;
     }
@@ -73,7 +83,7 @@ export class BoardComponent {
     let diagCol: number = Math.max(0, column - row);
 
     while (diagCol < this.board.length && diagRow < this.board[diagCol].length) {
-      diagDownString += this.board[diagCol][diagRow].color;
+      diagDownString += this.board[diagCol][diagRow];
       diagCol++;
       diagRow++;
     }
