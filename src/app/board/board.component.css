@@ -2,6 +2,11 @@
     position: relative;
     display: flex;
     flex-direction: row;
+    background: yellow;
+    border: black solid 3px;
+    padding: 5px;
+    width: 605px;
+    margin: 0;
 }
 
 .column {
@@ -15,4 +20,20 @@
     position: relative;
     border: black solid 3px;
     border-radius: 35px;
+    margin: 5px
+}
+
+.header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 5px 10px;
+    width: 605px;
+    margin: 0;
+}
+
+button {
+    width: 75px;
+    position: relative;
+    margin: 5px;
 }

@@ -21,7 +21,7 @@ export class BoardComponent {
     for (let i: number = 0; i < 7; i++) {
       this.board.push([]);
       for (let j: number = 0; j < 6; j++) {
-        this.board[i].push("");
+        this.board[i].push("white");
       }
     }
   }
@@ -35,7 +35,7 @@ export class BoardComponent {
   }
 
   playDisc(column: number, color: string): number {
-    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return cell === ""; });
+    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return cell === "white"; });
     if (cellToChangeIndex === -1) {
       return -1;
     }
