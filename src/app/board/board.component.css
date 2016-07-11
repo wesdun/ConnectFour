@@ -1,0 +1,18 @@
+.board {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.cell {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    border: black solid 3px;
+    border-radius: 35px;
+}
