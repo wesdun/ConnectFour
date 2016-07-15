@@ -59,8 +59,8 @@ export class BoardComponent {
     let directionsToTest: string[] = [];
     directionsToTest.push(this.createVerticalTest(column));
     directionsToTest.push(this.createHorizontalTest(row));
-    directionsToTest.push(this.createDiagDownTest(column, row));
     directionsToTest.push(this.createDiagUpTest(column, row));
+    directionsToTest.push(this.createDiagDownTest(column, row));
 
     return directionsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
@@ -79,7 +79,7 @@ export class BoardComponent {
     }).join("");
   }
 
-  private createDiagDownTest(column: number, row: number): string {
+  private createDiagUpTest(column: number, row: number): string {
     let diagUpString: string = "";
     let diagRow: number = Math.min(5, column + row);
     let diagCol: number = column + row - diagRow;
@@ -92,7 +92,7 @@ export class BoardComponent {
     return diagUpString;
   }
 
-  private createDiagUpTest(column: number, row: number): string {
+  private createDiagDownTest(column: number, row: number): string {
     let diagDownString: string = "";
     let diagRow: number = Math.max(0, row - column);
     let diagCol: number = Math.max(0, column - row);
