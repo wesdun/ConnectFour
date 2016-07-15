@@ -53,18 +53,30 @@ export class BoardComponent {
 
   checkForWin(column: number, row: number, color: string): boolean {
     let testString: string = color + color + color + color;
-    let stringsToTest: string[] = [];
-    stringsToTest.push(this.board[column].map((cell: string) => { return cell; }).join(""));
-    stringsToTest.push(this.board.map((column: string[]) => { return column[row]; }).join(""));
-    stringsToTest.push(this.createDiagDownString(column, row));
-    stringsToTest.push(this.createDiagUpString(column, row));
+    let directionsToTest: string[] = [];
+    directionsToTest.push(this.createVerticalTest(column));
+    directionsToTest.push(this.createHorizontalTest(row));
+    directionsToTest.push(this.createDiagDownTest(column, row));
+    directionsToTest.push(this.createDiagUpTest(column, row));
 
-    return stringsToTest.reduce((result: boolean, stringToTest: string) => {
+    return directionsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
     }, false);
   }
 
-  private createDiagDownString(column: number, row: number): string {
+  private createHorizontalTest(row: number): string {
+    return this.board.map((column: string[]) => {
+      return column[row];
+    }).join("");
+  }
+
+  private createVerticalTest(column: number): string {
+    return this.board[column].map((cell: string) => {
+      return cell;
+    }).join("");
+  }
+
+  private createDiagDownTest(column: number, row: number): string {
     let diagUpString: string = "";
     let diagRow: number = Math.min(5, column + row);
     let diagCol: number = column + row - diagRow;
@@ -77,7 +89,7 @@ export class BoardComponent {
     return diagUpString;
   }
 
-  private createDiagUpString(column: number, row: number): string {
+  private createDiagUpTest(column: number, row: number): string {
     let diagDownString: string = "";
     let diagRow: number = Math.max(0, row - column);
     let diagCol: number = Math.max(0, column - row);
