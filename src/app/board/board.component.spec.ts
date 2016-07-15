@@ -14,7 +14,7 @@ describe("BoardComponent", () => {
   });
 
   it("should get cell for given row and column", () => {
-    expect(board.getCell(0, 5)).toEqual("");
+    expect(board.cellIsEmpty(board.getCell(0, 5))).toBeTruthy();
   });
 
   it("should play disc", () => {

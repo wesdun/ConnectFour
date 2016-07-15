@@ -35,13 +35,16 @@ export class BoardComponent {
   }
 
   playDisc(column: number, color: string): number {
-    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return cell === "white"; });
-    if (cellToChangeIndex === -1) {
-      return -1;
+    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return this.cellIsEmpty(cell); });
+    if (cellToChangeIndex !== -1) {
+      this.board[column][cellToChangeIndex] = color;
     }
-    this.board[column][cellToChangeIndex] = color;
 
     return cellToChangeIndex;
+  }
+
+  cellIsEmpty(cell: string): boolean {
+    return cell === "white";
   }
 
   takeTurn(column: number, color: string): void {
