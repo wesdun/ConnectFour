@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "browser-sync": "^2.12.3",
-    "concurrently": "^2.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-if": "^2.0.0",
