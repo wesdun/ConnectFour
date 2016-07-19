@@ -1,5 +1,4 @@
 import {BoardComponent} from "../board/board.component";
-import {CellComponent} from "../cell/cell.component";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;

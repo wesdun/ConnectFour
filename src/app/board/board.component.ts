@@ -1,15 +1,13 @@
 import { Component } from "@angular/core";
 import * as _ from "lodash";
 
-import { CellComponent } from "../cell/cell.component";
 import { Location } from "../shared/location";
 
 @Component({
   moduleId: module.id,
   selector: "cf-board",
   templateUrl: "board.component.html",
-  styleUrls: ["board.component.css"],
-  directives: [CellComponent]
+  styleUrls: ["board.component.css"]
 })
 
 export class BoardComponent {
