@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
-import {BoardComponent} from "./board/board.component";
+import { BoardComponent } from "./board/board.component";
 
 @Component({
   moduleId: module.id,
   selector: "my-app",
-  template: `<cf-board></cf-board>`,
+  templateUrl: "app.component.html",
   directives: [BoardComponent]
 })
 
