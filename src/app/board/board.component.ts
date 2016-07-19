@@ -34,24 +34,29 @@ export class BoardComponent {
     return this.board[column][row];
   }
 
+  takeTurn(column: number, color: string): void {
+    let row: number = this.playDisc(column, color);
+    if (this.rowIsValid(row) && this.checkForWin(column, row, color)) {
+      console.log(color + " wins");
+    }
+  }
+
+
   playDisc(column: number, color: string): number {
-    let cellToChangeIndex: number = _.findLastIndex(this.board[column], (cell: string) => { return this.cellIsEmpty(cell); });
-    if (cellToChangeIndex !== -1) {
-      this.board[column][cellToChangeIndex] = color;
+    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => { return this.cellIsEmpty(cell); });
+    if (this.rowIsValid(cellToChangeRow)) {
+      this.board[column][cellToChangeRow] = color;
     }
 
-    return cellToChangeIndex;
+    return cellToChangeRow;
+  }
+
+  private rowIsValid(row: number): boolean {
+    return row !== -1;
   }
 
   cellIsEmpty(cell: string): boolean {
     return cell === "white";
-  }
-
-  takeTurn(column: number, color: string): void {
-    let row: number = this.playDisc(column, color);
-    if (this.checkForWin(column, row, color)) {
-      console.log(color + " wins");
-    }
   }
 
   checkForWin(column: number, row: number, color: string): boolean {
