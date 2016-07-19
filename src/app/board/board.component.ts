@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
-import {CellComponent} from "../cell/cell.component";
 import * as _ from "lodash";
+
+import { CellComponent } from "../cell/cell.component";
+import { Location } from "../shared/location";
 
 @Component({
   moduleId: module.id,
@@ -59,8 +61,8 @@ export class BoardComponent {
     let directionsToTest: string[] = [];
     directionsToTest.push(this.createVerticalTest(column));
     directionsToTest.push(this.createHorizontalTest(row));
-    directionsToTest.push(this.createDiagUpTest(column, row));
-    directionsToTest.push(this.createDiagDownTest(column, row));
+    directionsToTest.push(this.createDiagonalUpTest(column, row));
+    directionsToTest.push(this.createDiagonalDownTest(column, row));
 
     return directionsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
@@ -79,30 +81,39 @@ export class BoardComponent {
     }).join("");
   }
 
-  private createDiagUpTest(column: number, row: number): string {
-    let diagUpString: string = "";
-    let diagRow: number = Math.min(5, column + row);
-    let diagCol: number = column + row - diagRow;
+  private createDiagonalUpTest(column: number, row: number): string {
+    let diagonalUpString: string = "";
+    let location: Location = this.calculateDiagonalUpTestStartLocation(column, row);
 
-    while (diagCol < this.board.length && diagRow >= 0) {
-      diagUpString += this.board[diagCol][diagRow];
-      diagCol++;
-      diagRow--;
+    while (location.column < this.board.length && location.row >= 0) {
+      diagonalUpString += this.board[location.column][location.row];
+      location.column++;
+      location.row--;
     }
-    return diagUpString;
+    return diagonalUpString;
   }
 
-  private createDiagDownTest(column: number, row: number): string {
-    let diagDownString: string = "";
-    let diagRow: number = Math.max(0, row - column);
-    let diagCol: number = Math.max(0, column - row);
+  private createDiagonalDownTest(column: number, row: number): string {
+    let diagonalDownString: string = "";
+    let location: Location = this.calculateDiagonalDownTestStartLocation(row, column);
 
-    while (diagCol < this.board.length && diagRow < this.board[diagCol].length) {
-      diagDownString += this.board[diagCol][diagRow];
-      diagCol++;
-      diagRow++;
+    while (location.column < this.board.length && location.row < this.board[location.column].length) {
+      diagonalDownString += this.board[location.column][location.row];
+      location.column++;
+      location.row++;
     }
 
-    return diagDownString;
+    return diagonalDownString;
+  }
+
+  private calculateDiagonalUpTestStartLocation(column: number, row: number): Location {
+    let diagonalRow: number = Math.min(this.board[column].length, column + row);
+    let diagonalColumn: number = column + row - diagonalRow;
+
+    return new Location(diagonalColumn, diagonalRow);
+  }
+
+  private calculateDiagonalDownTestStartLocation(row: number, column: number): Location {
+    return new Location(Math.max(0, column - row), Math.max(0, row - column));
   }
 }
