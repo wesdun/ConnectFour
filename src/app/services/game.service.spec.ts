@@ -1,5 +1,7 @@
+import "rxjs/add/operator/takeLast";
+
 import { GameService } from "app/services/game.service";
-import { Player } from "../shared/player";
+import { Player } from "app/shared/player";
 
 describe("GameService", () => {
   it("should start game", () => {
@@ -19,5 +21,22 @@ describe("GameService", () => {
     let game: GameService = new GameService();
     game.startGame();
     expect(game.getCurrentPlayer()).toBeDefined();
+  });
+
+  it("should change turns", () => {
+    let game: GameService = new GameService();
+    game.startGame();
+    let player1: Player = game.getCurrentPlayer();
+    game.advancePlayer();
+    let player2: Player = game.getCurrentPlayer();
+    expect(player1).not.toBe(player2);
+  });
+
+  it("should notify other of player change", () => {
+    let game: GameService = new GameService();
+    game.startGame();
+    game.onPlayerChange().subscribe((currentPlayer: Player) => {
+      expect(currentPlayer).not.toBe(null);
+    });
   });
 });
