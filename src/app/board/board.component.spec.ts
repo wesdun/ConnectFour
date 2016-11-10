@@ -1,9 +1,19 @@
+import { TestBed, async } from "@angular/core/testing";
+
 import {BoardComponent} from "app/board/board.component";
+import { GameService } from "app/services/game.service";
+import { Player } from "app/shared/player";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      providers: [GameService],
+      declarations: [BoardComponent]
+    }).compileComponents();
+  }));
   beforeEach(() => {
-    board = new BoardComponent();
+    board = TestBed.createComponent(BoardComponent).componentInstance;
     board.createBoard();
   });
 
@@ -126,5 +136,15 @@ describe("BoardComponent", () => {
     board.playDisc(4, "yellow");
     board.playDisc(4, "red");
     expect(board.checkForWin(4, 3, "red")).toBeTruthy();
+  });
+
+  it("should not change player if can't play disc", () => {
+    spyOn(GameService.prototype, "advancePlayer");
+    spyOn(board, "playDisc").and.returnValue(-1);
+    spyOn(board, "rowIsValid").and.returnValue(true);
+    spyOn(board, "checkForWin");
+    board.currentPlayer = new Player("");
+    board.takeTurn(0);
+    expect(GameService.prototype.advancePlayer).toHaveBeenCalled();
   });
 });

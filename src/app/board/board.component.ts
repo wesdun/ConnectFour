@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import * as _ from "lodash";
 
 import { Location } from "../shared/location";
+import { GameService } from "../services/game.service";
+import { Player } from "../shared/player";
 
 @Component({
   moduleId: module.id,
@@ -12,8 +14,18 @@ import { Location } from "../shared/location";
 
 export class BoardComponent {
   board: string[][];
+  currentPlayer: Player;
 
-  constructor() {
+  constructor(private gameService: GameService) {
+  }
+
+  ngOnInit(): void {
+    this.createBoard();
+    this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => {
+      if (currentPlayer) {
+        this.currentPlayer = currentPlayer;
+      }
+    });
   }
 
   createBoard(): void {
@@ -26,19 +38,19 @@ export class BoardComponent {
     }
   }
 
-  ngOnInit(): void {
-    this.createBoard();
-  }
-
   getCell(column: number, row: number): string {
     return this.board[column][row];
   }
 
-  takeTurn(column: number, color: string): void {
-    let row: number = this.playDisc(column, color);
-    if (this.rowIsValid(row) && this.checkForWin(column, row, color)) {
-      console.log(color + " wins");
+  takeTurn(column: number): void {
+    let rowOfNewDisc: number = this.playDisc(column, this.currentPlayer.color);
+    if (!this.rowIsValid(rowOfNewDisc)) {
+      return;
     }
+    if (this.checkForWin(column, rowOfNewDisc, this.currentPlayer.color)) {
+      console.log(this.currentPlayer.color + " wins");
+    }
+    this.gameService.advancePlayer();
   }
 
 

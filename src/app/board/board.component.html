@@ -1,7 +1,6 @@
 <div class="header">
   <div *ngFor="let columns of board; let i=index" class="column">
-    <button (click)="takeTurn(i, 'red')">play</button>
-    <button (click)="takeTurn(i, 'black')">black</button>
+    <button *ngIf="currentPlayer" (click)="takeTurn(i)">{{currentPlayer.color}}</button>
   </div>
 </div>
 
