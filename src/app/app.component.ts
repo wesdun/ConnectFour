@@ -5,7 +5,6 @@ import { BoardComponent } from "./board/board.component";
   moduleId: module.id,
   selector: "my-app",
   templateUrl: "app.component.html",
-  directives: [BoardComponent]
 })
 
 export class AppComponent {

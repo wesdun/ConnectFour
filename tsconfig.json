@@ -6,7 +6,8 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "build"
+    "outDir": "build",
+    "baseUrl": "./src/"
   },
   "filesGlob": [
     "src/**/*.ts",

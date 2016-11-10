@@ -1,4 +1,5 @@
 module.exports = function(config) {
+  var appBase = 'dist/app/';
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -7,11 +8,39 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['systemjs', 'jasmine'],
+    frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
     files: [
-      'spec-js/*.js'
+      'dist/lib/systemjs/dist/system.js',
+      'node_modules/core-js/client/shim.js',
+      'dist/lib/reflect-metadata/Reflect.js',
+      'dist/lib/zone.js/dist/zone.js',
+      'node_modules/zone.js/dist/long-stack-trace-zone.js',
+      'node_modules/zone.js/dist/proxy.js',
+      'node_modules/zone.js/dist/sync-test.js',
+      'node_modules/zone.js/dist/jasmine-patch.js',
+      'dist/lib/lodash/lodash.js',
+      'node_modules/zone.js/dist/fake-async-test.js',
+      'node_modules/zone.js/dist/async-test.js',
+
+      { pattern: 'dist/lib/**/*.js', included: false, watched: false },
+      { pattern: 'dist/lib/**/*.js.map', included: false, watched: false },
+
+      {pattern: 'dist/systemjs.config.js', included: false, watched: false},
+      'karma-test-shim.js',
+
+      {pattern: appBase + '**/*.js', included: false, watched: true},
+      {pattern: 'dist/*.js', included: false, watched: true},
+
+      {pattern: appBase + '**/*.html', included: false, watched: true},
+      {pattern: appBase + '**/*.css', included: false, watched: true},
+      {pattern: appBase + '**/*.json', included: false, watched: true},
+
+      {pattern: 'src/**/*.ts', included: false, watched: true},
+      {pattern: appBase + '**/*.js.map', included: false, watched: false},
+
+      {pattern: 'spec-js/*.js', included: false, watched: true}
     ],
 
     // list of files to exclude
@@ -19,37 +48,9 @@ module.exports = function(config) {
     ],
 
     proxies: {
-      '/base/': '/base/dist/app/',
       '/app/': '/base/dist/app/'
     },
 
-    systemjs: {
-      configFile: 'dist/systemjs.config.js',
-      serveFiles: [
-        'dist/**/*.js',
-        'dist/**/*.html',
-        'dist/**/*.json',
-        'dist/**/*.css'
-      ],
-      includeFiles: [
-        'dist/lib/reflect-metadata/Reflect.js',
-        'dist/lib/zone.js/dist/zone.js',
-        'dist/lib/lodash/lodash.js',
-        'node_modules/zone.js/dist/fake-async-test.js'
-      ],
-      config: {
-        transpiler: null,
-        defaultJSExtensions: true,
-        map:
-        {
-          'app':      'dist/app',
-          'rxjs':     'dist/lib/rxjs',
-          '@angular': 'dist/lib/@angular',
-          'systemjs': 'dist/lib/systemjs/dist/system.js',
-          'lodash': 'dist/lib/lodash'
-        }
-      }
-    },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

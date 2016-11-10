@@ -7,7 +7,6 @@ const tscConfig = require('./tsconfig.json');
 const tslint = require('gulp-tslint');
 const browserSync = require('browser-sync');
 const reload = browserSync.reload;
-const tsconfig = require('tsconfig-glob');
 const Server = require('karma').Server;
 const argv = require('yargs').argv;
 
@@ -29,12 +28,14 @@ var flattenSpecPath = function(file) {
   return 'spec-js';
 };
 
-// TypeScript compile
 gulp.task('compile', ['clean'], function () {
+  var tsProject = typescript.createProject('tsconfig.json', {
+    typescript: require('typescript')
+  });
   return gulp
       .src(tscConfig.filesGlob)
       .pipe(sourcemaps.init())
-      .pipe(typescript(tscConfig.compilerOptions))
+      .pipe(typescript(tsProject))
       .pipe(sourcemaps.write('.'))
       .pipe(gulpif(isSpec, gulp.dest(flattenSpecPath), gulp.dest('dist')));
 });
@@ -50,13 +51,6 @@ gulp.task('copy:libs', ['clean'], function() {
     'node_modules/core-js/client/shim.min.js'
   ], {base: './node_modules/'})
       .pipe(gulpif(!argv.dev, gulp.dest('./dist/lib')))
-});
-
-gulp.task('tsconfig-glob', function () {
-  return tsconfig({
-    configPath: '.',
-    indent: 2
-  });
 });
 
 gulp.task('tslint', function() {
