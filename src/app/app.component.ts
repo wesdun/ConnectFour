@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { BoardComponent } from "./board/board.component";
+import { GameService } from "./services/game.service";
 
 @Component({
   moduleId: module.id,
@@ -8,5 +9,9 @@ import { BoardComponent } from "./board/board.component";
 })
 
 export class AppComponent {
-  constructor() {}
+  constructor(private gameService: GameService) {}
+
+  startGame(): void {
+    this.gameService.startGame();
+  }
 }
