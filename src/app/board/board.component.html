@@ -1,12 +1,10 @@
-<div class="header">
-  <div *ngFor="let columns of board; let i=index" class="column">
-    <button *ngIf="currentPlayer" (click)="takeTurn(i)">{{currentPlayer.color}}</button>
-  </div>
-</div>
-
 <div class="board">
-  <div *ngFor="let columns of board; let i=index" class="column">
+  <div *ngFor="let columns of board; let i=index" class="column" (click)="takeTurn(i)">
     <div class="cell" *ngFor="let cell of board[i]" [style.background]="cell">
     </div>
   </div>
 </div>
+<div class="header" *ngIf="currentPlayer">
+  {{currentPlayer.color}}'s Turn
+</div>
+
