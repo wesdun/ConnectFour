@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import {Component, HostListener} from "@angular/core";
 import * as _ from "lodash";
 
 import { Location } from "../shared/location";
@@ -15,8 +15,14 @@ import { Player } from "../shared/player";
 export class BoardComponent {
   board: string[][];
   currentPlayer: Player;
+  private discInPlayLocation: any;
 
   constructor(private gameService: GameService) {
+  }
+
+  @HostListener("mousemove", ["$event"])
+  onMouseMove(event: any): void {
+    this.discInPlayLocation = { left: event.clientX - 35, top: event.clientY - 35 };
   }
 
   ngOnInit(): void {
@@ -43,6 +49,7 @@ export class BoardComponent {
   }
 
   takeTurn(column: number): void {
+    if (this.gameService.getState() !== "playing") return;
     let rowOfNewDisc: number = this.playDisc(column, this.currentPlayer.color);
     if (!this.rowIsValid(rowOfNewDisc)) {
       return;
