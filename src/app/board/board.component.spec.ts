@@ -141,10 +141,19 @@ describe("BoardComponent", () => {
   it("should not change player if can't play disc", () => {
     spyOn(GameService.prototype, "advancePlayer");
     spyOn(board, "playDisc").and.returnValue(-1);
-    spyOn(board, "rowIsValid").and.returnValue(true);
     spyOn(board, "checkForWin");
     board.currentPlayer = new Player("");
     board.takeTurn(0);
-    expect(GameService.prototype.advancePlayer).toHaveBeenCalled();
+    expect(GameService.prototype.advancePlayer).not.toHaveBeenCalled();
+  });
+
+  it("should clear board on new game", () => {
+    board.playDisc(1, "red");
+    board.clear();
+    let boardIsEmpty: boolean;
+    board.board.forEach((column: any) => {
+      boardIsEmpty = column.every((cell: string) => cell === "");
+    });
+    expect(boardIsEmpty).toEqual(true);
   });
 });

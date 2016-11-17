@@ -138,4 +138,12 @@ export class BoardComponent {
   private calculateDiagonalDownTestStartLocation(row: number, column: number): Location {
     return new Location(Math.max(0, column - row), Math.max(0, row - column));
   }
+
+  clear(): void {
+    for (let i: number = 0; i < 7; i++) {
+      for (let j: number = 0; j < 6; j++) {
+        this.board[i][j] = "white";
+      }
+    }
+  }
 }
