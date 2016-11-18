@@ -1,4 +1,4 @@
-<div class="board">
+<div #myBoard class="board">
   <div *ngFor="let columns of board; let i=index" class="column" (click)="takeTurn(i)">
     <div class="cell" *ngFor="let cell of board[i]" [style.background]="cell">
     </div>
@@ -8,4 +8,4 @@
   {{currentPlayer.color}}'s Turn
 </div>
 
-<div *ngIf="currentPlayer" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>
+<div *ngIf="currentPlayer && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>

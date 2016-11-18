@@ -1,4 +1,4 @@
-import {Component, HostListener} from "@angular/core";
+import {Component, HostListener, ViewChild} from "@angular/core";
 import * as _ from "lodash";
 
 import { Location } from "../shared/location";
@@ -13,16 +13,24 @@ import { Player } from "../shared/player";
 })
 
 export class BoardComponent {
+  @ViewChild("myBoard") boardElement: any;
   board: string[][];
   currentPlayer: Player;
   private discInPlayLocation: any;
+  private discInPlayVisible: boolean;
 
   constructor(private gameService: GameService) {
   }
 
   @HostListener("mousemove", ["$event"])
   onMouseMove(event: any): void {
-    this.discInPlayLocation = { left: event.clientX - 35, top: event.clientY - 35 };
+    if (this.boardElement.nativeElement.contains(event.target)) {
+      this.discInPlayLocation = { left: event.clientX - 35, top: event.clientY - 35 };
+      this.discInPlayVisible = true;
+    }
+    else {
+      this.discInPlayVisible = false;
+    }
   }
 
   ngOnInit(): void {
