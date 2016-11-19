@@ -50,20 +50,16 @@ export class BoardComponent {
     return this.board[location.column][location.row];
   }
 
-  takeTurn(column: number): void {
-    if (this.gameService.getState() !== "playing") return;
-    let rowOfNewDisc: number = this.playDisc(column, this.currentPlayer.color);
-    if (!this.rowIsValid(rowOfNewDisc)) return;
-    if (this.winDetectionService.checkForWin(this.board, new Location(column, rowOfNewDisc), this.currentPlayer.color)) {
-      console.log(this.currentPlayer.color + " wins");
-    }
-    this.gameService.advancePlayer();
-  }
-
   playDisc(column: number, color: string): number {
-    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => this.cellIsEmpty(cell));
-    if (this.rowIsValid(cellToChangeRow)) this.board[column][cellToChangeRow] = color;
+    if (this.gameService.getState() !== "playing") return;
 
+    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => this.cellIsEmpty(cell));
+    if (this.rowIsValid(cellToChangeRow)) {
+      this.board[column][cellToChangeRow] = color;
+      this.winDetectionService.checkForWin(this.board, new Location(column, cellToChangeRow), color)
+        ? console.log(color + " wins")
+        : this.gameService.advancePlayer();
+    }
     return cellToChangeRow;
   }
 

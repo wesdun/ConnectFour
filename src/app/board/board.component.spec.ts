@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from "@angular/core/testing";
+import { TestBed, async, inject, ComponentFixture } from "@angular/core/testing";
 
 import { BoardComponent } from "app/board/board.component";
 import { BoardFactoryService } from "app/services/board-factory.service";
@@ -9,6 +9,8 @@ import { Location } from "app/shared/location";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;
+  let gameService: GameService;
+  let winDetectionService: WinDetectionService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,7 +20,13 @@ describe("BoardComponent", () => {
   }));
 
   beforeEach(() => {
-    board = TestBed.createComponent(BoardComponent).componentInstance;
+    let fixture: ComponentFixture<BoardComponent> = TestBed.createComponent(BoardComponent);
+    board = fixture.componentInstance;
+    gameService = fixture.debugElement.injector.get(GameService);
+    winDetectionService = fixture.debugElement.injector.get(WinDetectionService);
+    spyOn(gameService, "getState").and.returnValue("playing");
+    spyOn(gameService, "advancePlayer");
+    spyOn(winDetectionService, "checkForWin");
     board.createBoard();
   });
 
@@ -57,14 +65,11 @@ describe("BoardComponent", () => {
     expect(board.playDisc(7, "")).toEqual(-1);
   });
 
-  it("should not change player if can't play disc", inject([WinDetectionService], (winDetectionService: WinDetectionService) => {
-    spyOn(GameService.prototype, "advancePlayer");
-    spyOn(board, "playDisc").and.returnValue(-1);
-    spyOn(winDetectionService, "checkForWin");
-    board.currentPlayer = new Player("");
-    board.takeTurn(0);
-    expect(GameService.prototype.advancePlayer).not.toHaveBeenCalled();
-  }));
+  it("should not change player if can't play disc", () => {
+    spyOn(board, "rowIsValid").and.returnValue(false);
+    board.playDisc(0, "");
+    expect(gameService.advancePlayer).not.toHaveBeenCalled();
+  });
 
   it("should clear board on new game", () => {
     board.playDisc(1, "red");

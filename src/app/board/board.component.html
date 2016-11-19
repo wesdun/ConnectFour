@@ -1,5 +1,5 @@
 <div #myBoard class="board">
-  <div *ngFor="let columns of board; let i=index" class="column" (click)="takeTurn(i)">
+  <div *ngFor="let columns of board; let i=index" class="column" (click)="playDisc(i, currentPlayer.color)">
     <div class="cell" *ngFor="let cell of board[i]" [style.background]="cell">
     </div>
   </div>
