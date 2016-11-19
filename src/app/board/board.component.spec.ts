@@ -1,17 +1,21 @@
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, async, inject } from "@angular/core/testing";
 
-import {BoardComponent} from "app/board/board.component";
+import { BoardComponent } from "app/board/board.component";
+import { BoardFactoryService } from "app/services/board-factory.service";
 import { GameService } from "app/services/game.service";
+import { WinDetectionService } from "app/services/win-detection.service";
 import { Player } from "app/shared/player";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [GameService],
+      providers: [GameService, WinDetectionService, BoardFactoryService],
       declarations: [BoardComponent]
     }).compileComponents();
   }));
+
   beforeEach(() => {
     board = TestBed.createComponent(BoardComponent).componentInstance;
     board.createBoard();
@@ -52,107 +56,21 @@ describe("BoardComponent", () => {
     expect(board.playDisc(7, "")).toEqual(-1);
   });
 
-  it("should detect four discs vertically", () => {
-    let column: number = 0;
-    let row: number = 2;
-    board.playDisc(column, "yellow");
-    board.playDisc(column, "yellow");
-    board.playDisc(column, "yellow");
-    board.playDisc(column, "yellow");
-    expect(board.checkForWin(column, row, "yellow")).toBeTruthy();
-  });
-
-  it("should detect four discs horizontally", () => {
-    board.playDisc(0, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(2, "yellow");
-    board.playDisc(3, "yellow");
-    expect(board.checkForWin(3, 5, "yellow")).toBeTruthy();
-  });
-
-  it("should detect four discs diagonally", () => {
-    board.playDisc(0, "yellow");
-    board.playDisc(1, "red");
-    board.playDisc(1, "yellow");
-    board.playDisc(2, "red");
-    board.playDisc(2, "red");
-    board.playDisc(2, "yellow");
-    board.playDisc(3, "red");
-    board.playDisc(3, "red");
-    board.playDisc(3, "red");
-    board.playDisc(3, "yellow");
-    expect(board.checkForWin(3, 2, "yellow")).toBeTruthy();
-  });
-
-  it("should detect four discs diagonally upward in upper quandrant", () => {
-    board.playDisc(0, "red");
-    board.playDisc(0, "yellow");
-    board.playDisc(1, "red");
-    board.playDisc(1, "red");
-    board.playDisc(1, "yellow");
-    board.playDisc(2, "red");
-    board.playDisc(2, "red");
-    board.playDisc(2, "red");
-    board.playDisc(2, "yellow");
-    board.playDisc(3, "red");
-    board.playDisc(3, "red");
-    board.playDisc(3, "red");
-    board.playDisc(3, "red");
-    board.playDisc(3, "yellow");
-    expect(board.checkForWin(3, 1, "yellow")).toBeTruthy();
-  });
-
-  it("should detect four discs diagonally downward", () => {
-    board.playDisc(0, "yellow");
-    board.playDisc(0, "yellow");
-    board.playDisc(0, "yellow");
-    board.playDisc(0, "red");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "red");
-    board.playDisc(2, "yellow");
-    board.playDisc(2, "red");
-    board.playDisc(3, "red");
-    expect(board.checkForWin(3, 5, "red")).toBeTruthy();
-  });
-
-  it("should detect four discs diagonally downward in upper quadrant", () => {
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "yellow");
-    board.playDisc(1, "red");
-    board.playDisc(2, "yellow");
-    board.playDisc(2, "yellow");
-    board.playDisc(2, "yellow");
-    board.playDisc(2, "yellow");
-    board.playDisc(2, "red");
-    board.playDisc(3, "yellow");
-    board.playDisc(3, "yellow");
-    board.playDisc(3, "yellow");
-    board.playDisc(3, "red");
-    board.playDisc(4, "yellow");
-    board.playDisc(4, "yellow");
-    board.playDisc(4, "red");
-    expect(board.checkForWin(4, 3, "red")).toBeTruthy();
-  });
-
-  it("should not change player if can't play disc", () => {
+  it("should not change player if can't play disc", inject([WinDetectionService], (winDetectionService: WinDetectionService) => {
     spyOn(GameService.prototype, "advancePlayer");
     spyOn(board, "playDisc").and.returnValue(-1);
-    spyOn(board, "checkForWin");
+    spyOn(winDetectionService, "checkForWin");
     board.currentPlayer = new Player("");
     board.takeTurn(0);
     expect(GameService.prototype.advancePlayer).not.toHaveBeenCalled();
-  });
+  }));
 
   it("should clear board on new game", () => {
     board.playDisc(1, "red");
     board.clear();
     let boardIsEmpty: boolean;
     board.board.forEach((column: any) => {
-      boardIsEmpty = column.every((cell: string) => cell === "");
+      boardIsEmpty = column.every((cell: string) => cell === "white");
     });
     expect(boardIsEmpty).toEqual(true);
   });
