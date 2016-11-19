@@ -5,6 +5,7 @@ import { BoardFactoryService } from "app/services/board-factory.service";
 import { GameService } from "app/services/game.service";
 import { WinDetectionService } from "app/services/win-detection.service";
 import { Player } from "app/shared/player";
+import { Location } from "app/shared/location";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;
@@ -27,18 +28,18 @@ describe("BoardComponent", () => {
   });
 
   it("should get cell for given row and column", () => {
-    expect(board.cellIsEmpty(board.getCell(0, 5))).toBeTruthy();
+    expect(board.cellIsEmpty(board.getCell(new Location(0, 5)))).toBeTruthy();
   });
 
   it("should play disc", () => {
     board.playDisc(0, "yellow");
-    expect(board.getCell(0, 5)).toEqual("yellow");
+    expect(board.getCell(new Location(0, 5))).toEqual("yellow");
   });
 
   it("should play 2nd disc in column in correct spot", () => {
     board.playDisc(0, "yellow");
     board.playDisc(0, "red");
-    expect(board.getCell(0, 4)).toEqual("red");
+    expect(board.getCell(new Location(0, 4))).toEqual("red");
   });
 
   it("should return false if playing disc on full column", () => {
@@ -70,7 +71,7 @@ describe("BoardComponent", () => {
     board.clear();
     let boardIsEmpty: boolean;
     board.board.forEach((column: any) => {
-      boardIsEmpty = column.every((cell: string) => cell === "white");
+      boardIsEmpty = column.every((cell: string) => board.cellIsEmpty(cell));
     });
     expect(boardIsEmpty).toEqual(true);
   });

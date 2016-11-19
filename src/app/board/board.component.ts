@@ -1,4 +1,4 @@
-import {Component, HostListener, ViewChild} from "@angular/core";
+import { Component, HostListener, ViewChild } from "@angular/core";
 import * as _ from "lodash";
 
 import { Location } from "../shared/location";
@@ -39,39 +39,30 @@ export class BoardComponent {
 
   ngOnInit(): void {
     this.createBoard();
-    this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => {
-      if (currentPlayer) {
-        this.currentPlayer = currentPlayer;
-      }
-    });
+    this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
   }
 
   createBoard(): void {
     this.board = this.boardFactoryService.createBoard();
   }
 
-  getCell(column: number, row: number): string {
-    return this.board[column][row];
+  getCell(location: Location): string {
+    return this.board[location.column][location.row];
   }
 
   takeTurn(column: number): void {
     if (this.gameService.getState() !== "playing") return;
     let rowOfNewDisc: number = this.playDisc(column, this.currentPlayer.color);
-    if (!this.rowIsValid(rowOfNewDisc)) {
-      return;
-    }
+    if (!this.rowIsValid(rowOfNewDisc)) return;
     if (this.winDetectionService.checkForWin(this.board, new Location(column, rowOfNewDisc), this.currentPlayer.color)) {
       console.log(this.currentPlayer.color + " wins");
     }
     this.gameService.advancePlayer();
   }
 
-
   playDisc(column: number, color: string): number {
-    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => { return this.cellIsEmpty(cell); });
-    if (this.rowIsValid(cellToChangeRow)) {
-      this.board[column][cellToChangeRow] = color;
-    }
+    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => this.cellIsEmpty(cell));
+    if (this.rowIsValid(cellToChangeRow)) this.board[column][cellToChangeRow] = color;
 
     return cellToChangeRow;
   }
@@ -83,8 +74,6 @@ export class BoardComponent {
   cellIsEmpty(cell: string): boolean {
     return cell === "white";
   }
-
-
 
   clear(): void {
     for (let i: number = 0; i < 7; i++) {
