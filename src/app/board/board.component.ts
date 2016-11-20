@@ -20,6 +20,7 @@ export class BoardComponent {
   currentPlayer: Player;
   private discInPlayLocation: any;
   private discInPlayVisible: boolean;
+  private gameState: string;
 
   constructor(private gameService: GameService,
               private winDetectionService: WinDetectionService,
@@ -40,6 +41,7 @@ export class BoardComponent {
   ngOnInit(): void {
     this.createBoard();
     this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
+    this.gameService.onStateChange().subscribe((gameState: string) => this.gameState = gameState);
   }
 
   createBoard(): void {
@@ -57,10 +59,14 @@ export class BoardComponent {
     if (this.rowIsValid(cellToChangeRow)) {
       this.board[column][cellToChangeRow] = color;
       this.winDetectionService.checkForWin(this.board, new Location(column, cellToChangeRow), color)
-        ? console.log(color + " wins")
+        ? this.handleWin(color)
         : this.gameService.advancePlayer();
     }
     return cellToChangeRow;
+  }
+
+  private handleWin(color: string): void {
+    this.gameService.changeState("gameover");
   }
 
   private rowIsValid(row: number): boolean {
