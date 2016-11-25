@@ -3,11 +3,11 @@
   <div *ngIf="gameState === 'win'">{{currentPlayer.color}} wins</div>
   <div *ngIf="gameState === 'tie'">nobody wins</div>
 </div>
-<div #myBoard class="board" [class.active]="gameState === 'playing'">
+<div class="board" [class.active]="gameState === 'playing'">
   <div *ngFor="let columns of cells; let i=index" class="column" (click)="playDisc(i, currentPlayer.color)">
     <div class="cell" *ngFor="let cell of cells[i]" [style.background]="cell">
     </div>
   </div>
 </div>
 
-<div *ngIf="currentPlayer && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>
+<div *ngIf="gameState === 'playing' && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>

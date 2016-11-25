@@ -15,7 +15,6 @@ import { BoardFactoryService } from "../services/board-factory.service";
 })
 
 export class BoardComponent {
-  @ViewChild("myBoard") boardElement: any;
   cells: string[][];
   currentPlayer: Player;
   private discInPlayLocation: any;
@@ -29,13 +28,13 @@ export class BoardComponent {
 
   @HostListener("mousemove", ["$event"])
   onMouseMove(event: any): void {
-    if (this.boardElement.nativeElement.contains(event.target)) {
-      this.discInPlayLocation = { left: event.clientX - 35, top: event.clientY - 35 };
-      this.discInPlayVisible = true;
-    }
-    else {
-      this.discInPlayVisible = false;
-    }
+    this.discInPlayLocation = { left: event.clientX - 35, top: event.clientY - 35 };
+    this.discInPlayVisible = true;
+  }
+
+  @HostListener("mouseout", ["$event"])
+  onMouseOut(): void {
+    this.discInPlayVisible = false;
   }
 
   ngOnInit(): void {
