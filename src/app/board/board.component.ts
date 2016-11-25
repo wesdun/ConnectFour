@@ -80,7 +80,7 @@ export class BoardComponent {
   isEmpty(): boolean {
     return this.cells.map((column: string[]) => {
       return column.every((cell: string) => this.cellIsEmpty(cell));
-    }).every((columnIsFull: boolean) => columnIsFull);
+    }).every((columnIsEmpty: boolean) => columnIsEmpty);
   }
 
   private handleWin(): void {
