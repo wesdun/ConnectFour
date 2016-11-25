@@ -1,10 +1,9 @@
-import { TestBed, async, inject, ComponentFixture } from "@angular/core/testing";
+import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 
 import { BoardComponent } from "app/board/board.component";
 import { BoardFactoryService } from "app/services/board-factory.service";
 import { GameService } from "app/services/game.service";
 import { WinDetectionService } from "app/services/win-detection.service";
-import { Player } from "app/shared/player";
 import { Location } from "app/shared/location";
 
 describe("BoardComponent", () => {
@@ -30,9 +29,9 @@ describe("BoardComponent", () => {
     board.createBoard();
   });
 
-  it("should initialize with empty board", () => {
-    expect(board.board.length).toEqual(7);
-    expect(board.board[0].length).toEqual(6);
+  it("should initialize with empty cells", () => {
+    expect(board.cells.length).toEqual(7);
+    expect(board.cells[0].length).toEqual(6);
   });
 
   it("should get cell for given row and column", () => {
@@ -71,13 +70,16 @@ describe("BoardComponent", () => {
     expect(gameService.advancePlayer).not.toHaveBeenCalled();
   });
 
-  it("should clear board on new game", () => {
+  it("should clear cells on new game", () => {
     board.playDisc(1, "red");
     board.clear();
-    let boardIsEmpty: boolean;
-    board.board.forEach((column: any) => {
-      boardIsEmpty = column.every((cell: string) => board.cellIsEmpty(cell));
-    });
-    expect(boardIsEmpty).toEqual(true);
+    expect(board.isEmpty()).toEqual(true);
+  });
+
+  it("should set state to tie if no moves can be made", () => {
+    spyOn(gameService, "changeState");
+    board.cells = board.cells.map((column: string[]) => column.map((cell: string) => "occupied"));
+    board.endTurn();
+    expect(gameService.changeState).toHaveBeenCalledWith("tie");
   });
 });

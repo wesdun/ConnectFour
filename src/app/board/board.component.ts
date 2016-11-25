@@ -16,7 +16,7 @@ import { BoardFactoryService } from "../services/board-factory.service";
 
 export class BoardComponent {
   @ViewChild("myBoard") boardElement: any;
-  board: string[][];
+  cells: string[][];
   currentPlayer: Player;
   private discInPlayLocation: any;
   private discInPlayVisible: boolean;
@@ -45,27 +45,45 @@ export class BoardComponent {
   }
 
   createBoard(): void {
-    this.board = this.boardFactoryService.createBoard();
+    this.cells = this.boardFactoryService.createBoard();
   }
 
   getCell(location: Location): string {
-    return this.board[location.column][location.row];
+    return this.cells[location.column][location.row];
   }
 
   playDisc(column: number, color: string): number {
     if (this.gameService.getState() !== "playing") return;
 
-    let cellToChangeRow: number = _.findLastIndex(this.board[column], (cell: string) => this.cellIsEmpty(cell));
+    let cellToChangeRow: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
     if (this.rowIsValid(cellToChangeRow)) {
-      this.board[column][cellToChangeRow] = color;
-      this.winDetectionService.checkForWin(this.board, new Location(column, cellToChangeRow), color)
-        ? this.handleWin(color)
-        : this.gameService.advancePlayer();
+      this.cells[column][cellToChangeRow] = color;
+      this.winDetectionService.checkForWin(this.cells, new Location(column, cellToChangeRow), color)
+        ? this.handleWin()
+        : this.endTurn();
     }
     return cellToChangeRow;
   }
 
-  private handleWin(color: string): void {
+  endTurn(): void {
+    this.isFull()
+      ? this.gameService.changeState("tie")
+      : this.gameService.advancePlayer();
+  }
+
+  isFull(): boolean {
+    return this.cells.map((column: string[]) => {
+      return column.every((cell: string) => !this.cellIsEmpty(cell));
+    }).every((columnIsFull: boolean) => columnIsFull);
+  }
+
+  isEmpty(): boolean {
+    return this.cells.map((column: string[]) => {
+      return column.every((cell: string) => this.cellIsEmpty(cell));
+    }).every((columnIsFull: boolean) => columnIsFull);
+  }
+
+  private handleWin(): void {
     this.gameService.changeState("win");
   }
 
@@ -80,7 +98,7 @@ export class BoardComponent {
   clear(): void {
     for (let i: number = 0; i < 7; i++) {
       for (let j: number = 0; j < 6; j++) {
-        this.board[i][j] = "white";
+        this.cells[i][j] = "white";
       }
     }
   }
