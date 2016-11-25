@@ -1,11 +1,13 @@
+<div class="header">
+  <div *ngIf="gameState === 'playing'">{{currentPlayer.color}}'s turn</div>
+  <div *ngIf="gameState === 'win'">{{currentPlayer.color}} wins</div>
+  <div *ngIf="gameState === 'tie'">nobody wins</div>
+</div>
 <div #myBoard class="board" [class.active]="gameState === 'playing'">
   <div *ngFor="let columns of board; let i=index" class="column" (click)="playDisc(i, currentPlayer.color)">
     <div class="cell" *ngFor="let cell of board[i]" [style.background]="cell">
     </div>
   </div>
-</div>
-<div  *ngIf="currentPlayer" class="header" [style.border]="'3px solid' + currentPlayer.color">
-  {{currentPlayer.color}}'s Turn
 </div>
 
 <div *ngIf="currentPlayer && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>

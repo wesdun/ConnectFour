@@ -66,7 +66,7 @@ export class BoardComponent {
   }
 
   private handleWin(color: string): void {
-    this.gameService.changeState("gameover");
+    this.gameService.changeState("win");
   }
 
   private rowIsValid(row: number): boolean {
