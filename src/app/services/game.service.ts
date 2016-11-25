@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Player } from "../shared/player";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { NullPlayer } from "../shared/null-player";
 
 @Injectable()
 export class GameService {
@@ -17,7 +18,7 @@ export class GameService {
         new Player("red"),
         new Player("black")
     ];
-    this.currentPlayer = new BehaviorSubject<Player>(null);
+    this.currentPlayer = new BehaviorSubject<Player>(new NullPlayer());
     this.playerChanged = this.currentPlayer.asObservable();
     this.state = new BehaviorSubject<string>("init");
     this.stateChanged = this.state.asObservable();
