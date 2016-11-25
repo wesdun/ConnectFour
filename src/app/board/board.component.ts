@@ -95,10 +95,6 @@ export class BoardComponent {
   }
 
   clear(): void {
-    for (let i: number = 0; i < 7; i++) {
-      for (let j: number = 0; j < 6; j++) {
-        this.cells[i][j] = "white";
-      }
-    }
+    this.cells = this.cells.map((column: string[]) => column.map((cell: string) => "white"));
   }
 }
