@@ -39,15 +39,6 @@
   pointer-events: none;
 }
 
-.header {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  padding: 5px 10px;
-  margin: 0;
-  font-size: 25px;
-}
-
 button {
   width: 75px;
   position: relative;

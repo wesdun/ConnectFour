@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import * as _ from "lodash";
 
 import { Location } from "../shared/location";
