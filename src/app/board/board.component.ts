@@ -18,7 +18,7 @@ export class BoardComponent {
   cells: string[][];
   currentPlayer: Player;
   private discInPlayLocation: any;
-  private discInPlayVisible: boolean;
+  discInPlayVisible: boolean;
   private gameState: string;
 
   constructor(private gameService: GameService,
@@ -82,7 +82,7 @@ export class BoardComponent {
     }).every((columnIsEmpty: boolean) => columnIsEmpty);
   }
 
-  private handleWin(): void {
+  handleWin(): void {
     this.gameService.changeState("win");
   }
 

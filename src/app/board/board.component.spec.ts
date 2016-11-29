@@ -49,7 +49,7 @@ describe("BoardComponent", () => {
     expect(board.getCell(new Location(0, 4))).toEqual("red");
   });
 
-  it("should return false if playing disc on full column", () => {
+  it("should return -1 if playing disc on full column", () => {
     board.playDisc(0, "yellow");
     board.playDisc(0, "red");
     board.playDisc(0, "yellow");
@@ -59,9 +59,14 @@ describe("BoardComponent", () => {
     expect(board.playDisc(0, "yellow")).toEqual(-1);
   });
 
-  it("should return false if playing disc to column that doesn't exist", () => {
+  it("should return -1 if playing disc to column that doesn't exist", () => {
     expect(board.playDisc(-1, "")).toEqual(-1);
     expect(board.playDisc(7, "")).toEqual(-1);
+  });
+
+  it("should change player at end of turn", () => {
+    board.endTurn();
+    expect(gameService.advancePlayer).toHaveBeenCalled();
   });
 
   it("should not change player if can't play disc", () => {
@@ -76,10 +81,34 @@ describe("BoardComponent", () => {
     expect(board.isEmpty()).toEqual(true);
   });
 
-  it("should set state to tie if no moves can be made", () => {
-    spyOn(gameService, "changeState");
+  it("should return true if board is full", () => {
     board.cells = board.cells.map((column: string[]) => column.map((cell: string) => "occupied"));
+    expect(board.isFull()).toEqual(true);
+  });
+
+  it("should set state to tie if no more moves can be made", () => {
+    spyOn(gameService, "changeState");
+    spyOn(board, "isFull").and.returnValue(true);
     board.endTurn();
     expect(gameService.changeState).toHaveBeenCalledWith("tie");
+  });
+
+  it("should set state to win if win is detected", () => {
+    spyOn(gameService, "changeState");
+    board.handleWin();
+    expect(gameService.changeState).toHaveBeenCalledWith("win");
+  });
+
+  it("should hide disc in play on mouse out", () => {
+    board.discInPlayVisible = true;
+    board.onMouseOut();
+    expect(board.discInPlayVisible).toEqual(false);
+  });
+
+  it("should show disc in play on mouse move inside board", () => {
+    let event: any = { left: 0, top: 0 };
+    board.discInPlayVisible = false;
+    board.onMouseMove(event);
+    expect(board.discInPlayVisible).toEqual(true);
   });
 });
