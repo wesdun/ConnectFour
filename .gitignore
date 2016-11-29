@@ -6,3 +6,4 @@ spec-js/
 build/
 debug.log
 npm-debug.log
+coverage/
