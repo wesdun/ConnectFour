@@ -20,7 +20,7 @@ export class GameService {
     ];
     this.currentPlayer = new BehaviorSubject<Player>(new NullPlayer());
     this.playerChanged = this.currentPlayer.asObservable();
-    this.state = new BehaviorSubject<string>("init");
+    this.state = new BehaviorSubject<string>("ready");
     this.stateChanged = this.state.asObservable();
   }
 
