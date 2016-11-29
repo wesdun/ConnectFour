@@ -1,4 +1,5 @@
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
+import Spy = jasmine.Spy;
 
 import { BoardComponent } from "app/board/board.component";
 import { BoardFactoryService } from "app/services/board-factory.service";
@@ -56,12 +57,8 @@ describe("BoardComponent", () => {
     board.playDisc(0, "red");
     board.playDisc(0, "yellow");
     board.playDisc(0, "red");
-    expect(board.playDisc(0, "yellow")).toEqual(-1);
-  });
-
-  it("should return -1 if playing disc to column that doesn't exist", () => {
-    expect(board.playDisc(-1, "")).toEqual(-1);
-    expect(board.playDisc(7, "")).toEqual(-1);
+    board.playDisc(0, "yellow");
+    expect((winDetectionService.checkForWin as Spy).calls.count()).toEqual(6);
   });
 
   it("should change player at end of turn", () => {

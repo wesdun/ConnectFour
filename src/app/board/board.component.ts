@@ -51,15 +51,14 @@ export class BoardComponent {
     return this.cells[location.column][location.row];
   }
 
-  playDisc(column: number, color: string): number {
-    let cellToChangeRow: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
-    if (this.rowIsValid(cellToChangeRow)) {
-      this.cells[column][cellToChangeRow] = color;
-      this.winDetectionService.checkForWin(this.cells, new Location(column, cellToChangeRow), color)
-        ? this.handleWin()
-        : this.endTurn();
-    }
-    return cellToChangeRow;
+  playDisc(column: number, color: string): void {
+    let rowOfCellToChange: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
+    if (!this.rowIsValid(rowOfCellToChange)) return;
+
+    this.cells[column][rowOfCellToChange] = color;
+    this.winDetectionService.checkForWin(this.cells, new Location(column, rowOfCellToChange), color)
+      ? this.handleWin()
+      : this.endTurn();
   }
 
   endTurn(): void {
