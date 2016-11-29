@@ -27,6 +27,7 @@
   background: lightblue;
   font-size: 20px;
   padding: 5px;
+  box-shadow: 2px 2px 3px black;
 }
 
 .cf-btn:hover {
