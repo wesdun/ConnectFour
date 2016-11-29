@@ -11,7 +11,7 @@
   display: flex;
   width: 620px;
   margin: 5px;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 }
 
@@ -36,7 +36,12 @@
 
 .display {
   display: flex;
-  font-size: 25px;
   flex-grow: 1;
   justify-content: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 5px;
+  margin-left: 5px;
+  box-shadow: 2px 2px 3px black;
 }
