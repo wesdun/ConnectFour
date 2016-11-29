@@ -52,8 +52,6 @@ export class BoardComponent {
   }
 
   playDisc(column: number, color: string): number {
-    if (this.gameService.getState() !== "playing") return;
-
     let cellToChangeRow: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
     if (this.rowIsValid(cellToChangeRow)) {
       this.cells[column][cellToChangeRow] = color;
