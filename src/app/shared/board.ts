@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { Location } from "../shared/location";
+import { Location } from "./location";
 
 export class Board {
   cells: string[][];

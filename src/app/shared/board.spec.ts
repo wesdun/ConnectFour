@@ -41,4 +41,10 @@ describe("Board", () => {
     board.setCell(new Location(0, 5), "red");
     expect(board.playDisc(0, "")).toEqual(null);
   });
+
+  it("should play 2nd disc in column in correct spot", () => {
+    board.playDisc(0, "yellow");
+    board.playDisc(0, "red");
+    expect(board.getCell(new Location(0, 4))).toEqual("red");
+  });
 });

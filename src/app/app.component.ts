@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
-import { BoardComponent } from "./board/board.component";
+
 import { GameService } from "./services/game.service";
-import {ViewChild} from "@angular/core";
-import { Player } from "./shared/player";
+import { State } from "./state/state";
 
 @Component({
   moduleId: module.id,
@@ -12,19 +11,15 @@ import { Player } from "./shared/player";
 })
 
 export class AppComponent {
-  @ViewChild(BoardComponent) board: any;
-  private gameState: string;
-  private currentPlayer: Player;
+  private gameState: State;
 
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.gameService.onStateChange().subscribe((gameState: string) => this.gameState = gameState);
-    this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
+    this.gameService.onStateChange().subscribe((gameState: State) => this.gameState = gameState);
   }
 
   startGame(): void {
-    this.board.board.clear();
     this.gameService.startGame();
   }
 }

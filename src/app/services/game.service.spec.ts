@@ -7,7 +7,7 @@ describe("GameService", () => {
   it("should start game", () => {
     let game: GameService = new GameService();
     game.startGame();
-    expect(game.getState()).toEqual("playing");
+    expect(game.getState()).toEqual(game.getPlayingState());
   });
 
   it("should have a list of players", () => {

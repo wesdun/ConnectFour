@@ -1,10 +1,7 @@
 import { Component, HostListener } from "@angular/core";
 
-import { Location } from "../shared/location";
 import { GameService } from "../services/game.service";
 import { Player } from "../shared/player";
-import { WinDetectionService } from "../services/win-detection.service";
-import { BoardFactoryService } from "../services/board-factory.service";
 import { Board } from "../shared/board";
 import { State } from "../state/state";
 
@@ -18,12 +15,11 @@ import { State } from "../state/state";
 export class BoardComponent {
   board: Board;
   currentPlayer: Player;
-  private discInPlayLocation: any;
   discInPlayVisible: boolean;
-  private gameState: string;
+  private discInPlayLocation: any;
+  private gameState: State;
 
-  constructor(private gameService: GameService,
-              private winDetectionService: WinDetectionService) {
+  constructor(private gameService: GameService) {
   }
 
   @HostListener("mousemove", ["$event"])
@@ -38,32 +34,16 @@ export class BoardComponent {
   }
 
   ngOnInit(): void {
-    this.createBoard();
+    this.setBoard();
     this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
-    this.gameService.onStateChange().subscribe((gameState: string) => this.gameState = gameState);
+    this.gameService.onStateChange().subscribe((gameState: State) => this.gameState = gameState);
   }
 
-  createBoard(): void {
-    this.board = new Board();
+  setBoard(): void {
+    this.board = this.gameService.getBoard();
   }
 
-  playDisc(column: number, color: string): void {
-    let rowOfDiscPlayed: number = this.board.playDisc(column, color);
-    if (rowOfDiscPlayed === null) return;
-    this.winDetectionService.checkForWin(this.board.cells, new Location(column, rowOfDiscPlayed), color)
-      ? this.handleWin()
-      : this.endTurn();
+  playDisc(column: number): void {
+    this.gameService.takeTurn(column);
   }
-
-  endTurn(): void {
-    this.board.isFull()
-      ? this.gameService.changeState("tie")
-      : this.gameService.advancePlayer();
-  }
-
-  handleWin(): void {
-    this.gameService.changeState("win");
-  }
-
-
 }

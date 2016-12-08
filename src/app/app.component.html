@@ -1,10 +1,7 @@
 <div class="header">
   <div class="cf-btn" (click)="startGame()">New Game</div>
-  <div [ngSwitch]="gameState" class="display">
-    <div *ngSwitchCase="'playing'">{{currentPlayer.color}}'s turn</div>
-    <div *ngSwitchCase="'win'">{{currentPlayer.color}} wins</div>
-    <div *ngSwitchCase="'tie'">nobody wins</div>
-    <div *ngSwitchDefault>Connect Four</div>
+  <div class="display">
+    {{gameState.getDisplay()}}
   </div>
 </div>
 <div class="content">
