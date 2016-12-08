@@ -1,11 +1,12 @@
 import { Component, HostListener } from "@angular/core";
-import * as _ from "lodash";
 
 import { Location } from "../shared/location";
 import { GameService } from "../services/game.service";
 import { Player } from "../shared/player";
 import { WinDetectionService } from "../services/win-detection.service";
 import { BoardFactoryService } from "../services/board-factory.service";
+import { Board } from "../shared/board";
+import { State } from "../state/state";
 
 @Component({
   moduleId: module.id,
@@ -15,15 +16,14 @@ import { BoardFactoryService } from "../services/board-factory.service";
 })
 
 export class BoardComponent {
-  cells: string[][];
+  board: Board;
   currentPlayer: Player;
   private discInPlayLocation: any;
   discInPlayVisible: boolean;
   private gameState: string;
 
   constructor(private gameService: GameService,
-              private winDetectionService: WinDetectionService,
-              private boardFactoryService: BoardFactoryService) {
+              private winDetectionService: WinDetectionService) {
   }
 
   @HostListener("mousemove", ["$event"])
@@ -44,54 +44,26 @@ export class BoardComponent {
   }
 
   createBoard(): void {
-    this.cells = this.boardFactoryService.createBoard();
-  }
-
-  getCell(location: Location): string {
-    return this.cells[location.column][location.row];
+    this.board = new Board();
   }
 
   playDisc(column: number, color: string): void {
-    let rowOfCellToChange: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
-    if (!this.rowIsValid(rowOfCellToChange)) return;
-
-    this.cells[column][rowOfCellToChange] = color;
-    this.winDetectionService.checkForWin(this.cells, new Location(column, rowOfCellToChange), color)
+    let rowOfDiscPlayed: number = this.board.playDisc(column, color);
+    if (rowOfDiscPlayed === null) return;
+    this.winDetectionService.checkForWin(this.board.cells, new Location(column, rowOfDiscPlayed), color)
       ? this.handleWin()
       : this.endTurn();
   }
 
   endTurn(): void {
-    this.isFull()
+    this.board.isFull()
       ? this.gameService.changeState("tie")
       : this.gameService.advancePlayer();
-  }
-
-  isFull(): boolean {
-    return this.cells.map((column: string[]) => {
-      return column.every((cell: string) => !this.cellIsEmpty(cell));
-    }).every((columnIsFull: boolean) => columnIsFull);
-  }
-
-  isEmpty(): boolean {
-    return this.cells.map((column: string[]) => {
-      return column.every((cell: string) => this.cellIsEmpty(cell));
-    }).every((columnIsEmpty: boolean) => columnIsEmpty);
   }
 
   handleWin(): void {
     this.gameService.changeState("win");
   }
 
-  private rowIsValid(row: number): boolean {
-    return row !== -1;
-  }
 
-  cellIsEmpty(cell: string): boolean {
-    return cell === "white";
-  }
-
-  clear(): void {
-    this.cells = this.cells.map((column: string[]) => column.map((cell: string) => "white"));
-  }
 }

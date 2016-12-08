@@ -24,7 +24,7 @@ export class AppComponent {
   }
 
   startGame(): void {
-    this.board.clear();
+    this.board.board.clear();
     this.gameService.startGame();
   }
 }

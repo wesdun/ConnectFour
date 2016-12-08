@@ -1,5 +1,7 @@
 import { Location } from "../shared/location";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class WinDetectionService {
   checkForWin(board: string[][], locationOfDiscPlayed: Location, color: string): boolean {
     let testString: string = color + color + color + color;
