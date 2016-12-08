@@ -3,13 +3,14 @@ import Spy = jasmine.Spy;
 
 import { BoardComponent } from "app/board/board.component";
 import { GameService } from "app/services/game.service";
+import { PlayerService } from "app/services/player.service";
 
 describe("BoardComponent", () => {
   let board: BoardComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [GameService],
+      providers: [GameService, PlayerService],
       declarations: [BoardComponent]
     }).compileComponents();
   }));

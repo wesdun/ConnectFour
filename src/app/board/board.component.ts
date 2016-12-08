@@ -4,6 +4,7 @@ import { GameService } from "../services/game.service";
 import { Player } from "../shared/player";
 import { Board } from "../shared/board";
 import { State } from "../state/state";
+import { PlayerService } from "../services/player.service";
 
 @Component({
   moduleId: module.id,
@@ -19,7 +20,8 @@ export class BoardComponent {
   private discInPlayLocation: any;
   private gameState: State;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService,
+              private playerService: PlayerService) {
   }
 
   @HostListener("mousemove", ["$event"])
@@ -35,7 +37,7 @@ export class BoardComponent {
 
   ngOnInit(): void {
     this.setBoard();
-    this.gameService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
+    this.playerService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
     this.gameService.onStateChange().subscribe((gameState: State) => this.gameState = gameState);
   }
 
