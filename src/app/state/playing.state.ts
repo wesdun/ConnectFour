@@ -39,6 +39,6 @@ export class PlayingState implements State {
   }
 
   getDisplay(): string {
-    return this.playerService.getCurrentPlayer().color + "'s turn";
+    return "";
   }
 }

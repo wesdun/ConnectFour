@@ -25,7 +25,7 @@ export class PlayerService {
   }
 
   getCurrentPlayer(): Player {
-    return this.players[this.currentPlayerIndex];
+    return this.currentPlayer.getValue();
   }
 
   setCurrentPlayer(playerIndex: number): void {

@@ -11,7 +11,7 @@
   display: flex;
   width: 620px;
   margin: 5px;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -39,9 +39,11 @@
   flex-grow: 1;
   justify-content: center;
   border: 2px solid black;
-  border-radius: 10px;
   font-size: 20px;
+  font-weight: bold;
   padding: 5px;
   margin-left: 5px;
   box-shadow: 2px 2px 3px black;
+  height: 22px;
+  color: white;
 }

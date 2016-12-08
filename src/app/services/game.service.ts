@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Player } from "../shared/player";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { NullPlayer } from "../shared/null-player";
 import { PlayingState } from "../state/playing.state";
 import { Board } from "../shared/board";
 import { State } from "../state/state";
 import { TieState } from "../state/tie.state";
 import { WinState } from "../state/win.state";
-import { ReadyState } from "../state/ready.state";
 import { PlayerService } from "./player.service";
 
 @Injectable()
@@ -19,12 +16,12 @@ export class GameService {
   private playingState: State;
   private tieState: State;
   private winState: State;
-  private readyState: State;
+
 
   constructor(private playerService: PlayerService) {
     this.board = new Board();
     this.createStates();
-    this.state = new BehaviorSubject<State>(this.readyState);
+    this.state = new BehaviorSubject<State>(this.playingState);
     this.stateChanged = this.state.asObservable();
   }
 
@@ -32,7 +29,6 @@ export class GameService {
     this.playingState = new PlayingState(this.board, this, this.playerService);
     this.tieState = new TieState();
     this.winState = new WinState(this.playerService);
-    this.readyState = new ReadyState();
   }
 
   startGame(): void {
