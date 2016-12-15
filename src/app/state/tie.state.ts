@@ -1,13 +1,11 @@
-import { State } from "./state";
+import {GameService} from "../services/game.service";
+import {AbstractState} from "./abstract.state";
 
-export class TieState implements State {
-  isBoardActive: boolean;
-
-  constructor() {
+export class TieState extends AbstractState {
+  constructor(gameService: GameService) {
+    super();
+    this.gameService = gameService;
     this.isBoardActive = false;
-  }
-
-  takeTurn(column: number, color: string): void {
   }
 
   getDisplay(): string {

@@ -10,7 +10,7 @@ describe("PlayingState", () => {
   let board: Board;
 
   beforeEach(() => {
-    board = new Board();
+    board = new Board(null);
     playerService = new PlayerService();
     gameService = new GameService(playerService);
     playingState = new PlayingState(board, gameService, playerService);

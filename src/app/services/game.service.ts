@@ -7,6 +7,7 @@ import { State } from "../state/state";
 import { TieState } from "../state/tie.state";
 import { WinState } from "../state/win.state";
 import { PlayerService } from "./player.service";
+import {WinDetectionService} from "./win-detection.service";
 
 @Injectable()
 export class GameService {
@@ -19,7 +20,7 @@ export class GameService {
 
 
   constructor(private playerService: PlayerService) {
-    this.board = new Board();
+    this.board = new Board(new WinDetectionService);
     this.createStates();
     this.state = new BehaviorSubject<State>(this.playingState);
     this.stateChanged = this.state.asObservable();
@@ -27,13 +28,12 @@ export class GameService {
 
   private createStates(): void {
     this.playingState = new PlayingState(this.board, this, this.playerService);
-    this.tieState = new TieState();
-    this.winState = new WinState(this.playerService);
+    this.tieState = new TieState(this);
+    this.winState = new WinState(this, this.playerService);
   }
 
   startGame(): void {
     this.board.clear();
-    this.changeState(this.playingState);
     this.playerService.setCurrentPlayer(Math.round(Math.random()));
   }
 

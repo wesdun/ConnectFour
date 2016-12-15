@@ -1,16 +1,16 @@
-import { State } from "./state";
 import { PlayerService } from "../services/player.service";
+import {GameService} from "../services/game.service";
+import {AbstractState} from "./abstract.state";
 
-export class WinState implements State {
+export class WinState extends AbstractState {
   isBoardActive: boolean;
   private playerService: PlayerService;
 
-  constructor(playerService: PlayerService) {
+  constructor(gameService: GameService, playerService: PlayerService) {
+    super();
+    this.gameService = gameService;
     this.playerService = playerService;
     this.isBoardActive = false;
-  }
-
-  takeTurn(column: number, color: string): void {
   }
 
   getDisplay(): string {

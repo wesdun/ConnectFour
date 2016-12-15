@@ -1,5 +1,6 @@
 export interface State {
   isBoardActive: boolean;
-  takeTurn(column: number, color: string): void;
   getDisplay(): string;
+  newGame(): void;
+  takeTurn(column: number, color: string): void;
 }

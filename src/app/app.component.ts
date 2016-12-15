@@ -26,6 +26,6 @@ export class AppComponent {
   }
 
   startGame(): void {
-    this.gameService.startGame();
+    this.gameState.newGame();
   }
 }
