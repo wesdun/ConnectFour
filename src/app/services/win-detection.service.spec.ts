@@ -3,6 +3,7 @@ import { TestBed, inject } from "@angular/core/testing";
 import { BoardFactoryService } from "app/services/board-factory.service";
 import { WinDetectionService } from "app/services/win-detection.service";
 import { Location } from "app/shared/location";
+import {Disc} from "app/shared/disc";
 
 describe("WinDetectionService", () => {
   let board: string[][];
@@ -24,8 +25,9 @@ describe("WinDetectionService", () => {
     board[0][1] = "yellow";
     board[0][2] = "yellow";
     board[0][3] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(0, 3);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(0, 3), "yellow");
+
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 
   it("should detect four discs horizontally", () => {
@@ -33,8 +35,8 @@ describe("WinDetectionService", () => {
     board[1][0] = "yellow";
     board[2][0] = "yellow";
     board[3][0] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(3, 0);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(3, 0), "yellow");
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 
   it("should detect four discs diagonally", () => {
@@ -42,8 +44,8 @@ describe("WinDetectionService", () => {
     board[1][1] = "yellow";
     board[2][2] = "yellow";
     board[3][3] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(3, 3);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(3, 3), "yellow");
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 
   it("should detect four discs diagonally upward in upper quandrant", () => {
@@ -51,8 +53,8 @@ describe("WinDetectionService", () => {
     board[1][2] = "yellow";
     board[2][3] = "yellow";
     board[3][4] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(3, 4);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(3, 4), "yellow");
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 
   it("should detect four discs diagonally downward", () => {
@@ -60,8 +62,8 @@ describe("WinDetectionService", () => {
     board[1][2] = "yellow";
     board[2][1] = "yellow";
     board[3][0] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(3, 0);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(3, 0), "yellow");
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 
   it("should detect four discs diagonally downward in upper quadrant", () => {
@@ -69,7 +71,7 @@ describe("WinDetectionService", () => {
     board[2][4] = "yellow";
     board[3][3] = "yellow";
     board[4][2] = "yellow";
-    let locationOfDiscPlayed: Location = new Location(4, 2);
-    expect(winDetectionService.checkForWin(board, locationOfDiscPlayed, "yellow")).toBeTruthy();
+    let lastDiscPlayed: Disc = new Disc(new Location(4, 2), "yellow");
+    expect(winDetectionService.checkForWin(board, lastDiscPlayed)).toBeTruthy();
   });
 });

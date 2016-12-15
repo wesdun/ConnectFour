@@ -21,15 +21,15 @@ export class PlayingState extends AbstractState {
   takeTurn(column: number, color: string): void {
     let rowOfDiscPlayed: number = this.board.playDisc(column, color);
     if (rowOfDiscPlayed === null) return;
-    this.board.checkForWin()
-      ? this.handleWin()
-      : this.endTurn();
+    this.winDetectionService.checkForWin(this.board.cells, new Location(column, rowOfDiscPlayed), color)
+        ? this.handleWin()
+        : this.endTurn();
   }
 
   endTurn(): void {
     this.board.isFull()
-      ? this.gameService.changeState(this.gameService.getTieState())
-      : this.playerService.advancePlayer();
+        ? this.gameService.changeState(this.gameService.getTieState())
+        : this.playerService.advancePlayer();
   }
 
   handleWin(): void {

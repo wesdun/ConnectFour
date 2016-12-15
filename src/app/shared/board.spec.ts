@@ -1,11 +1,12 @@
 import { Board } from "app/shared/board";
 import { Location } from "app/shared/location";
+import {Disc} from "app/shared/disc";
 
 describe("Board", () => {
   let board: Board;
 
   beforeEach(() => {
-    board = new Board();
+    board = new Board(null);
   });
 
   it("should initialize with empty cells", () => {
@@ -33,12 +34,12 @@ describe("Board", () => {
   });
 
   it("should return null if playing disc on full column", () => {
-    board.setCell(new Location(0, 0), "yellow");
-    board.setCell(new Location(0, 1), "red");
-    board.setCell(new Location(0, 2), "yellow");
-    board.setCell(new Location(0, 3), "red");
-    board.setCell(new Location(0, 4), "yellow");
-    board.setCell(new Location(0, 5), "red");
+    board.setCell(new Disc(new Location(0, 0), "yellow"));
+    board.setCell(new Disc(new Location(0, 1), "red"));
+    board.setCell(new Disc(new Location(0, 2), "yellow"));
+    board.setCell(new Disc(new Location(0, 3), "red"));
+    board.setCell(new Disc(new Location(0, 4), "yellow"));
+    board.setCell(new Disc(new Location(0, 5), "red"));
     expect(board.playDisc(0, "")).toEqual(null);
   });
 

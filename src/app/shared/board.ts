@@ -1,11 +1,16 @@
 import * as _ from "lodash";
 
 import { Location } from "./location";
+import {WinDetectionService} from "../services/win-detection.service";
+import {Disc} from "./disc";
 
 export class Board {
   cells: string[][];
+  winDetectionService: WinDetectionService;
+  lastDiscPlayed: Disc;
 
-  constructor() {
+  constructor(winDetector: WinDetectionService) {
+    this.winDetectionService = winDetector;
     this.initializeBoard();
   }
 
@@ -23,14 +28,17 @@ export class Board {
     return this.cells[location.column][location.row];
   }
 
-  setCell(location: Location, color: string): void {
-    this.cells[location.column][location.row] = color;
+  setCell(disc: Disc): void {
+    this.cells[disc.location.column][disc.location.row] = disc.color;
   }
 
   playDisc(column: number, color: string): number {
     let rowOfCellToChange: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
     if (!this.rowIsValid(rowOfCellToChange)) return null;
-    this.setCell(new Location(column, rowOfCellToChange), color);
+
+    let discPlayed: Disc = new Disc(new Location(column, rowOfCellToChange), color);
+    this.setCell(discPlayed);
+    this.lastDiscPlayed = discPlayed;
     return rowOfCellToChange;
   }
 
@@ -56,5 +64,9 @@ export class Board {
 
   private rowIsValid(row: number): boolean {
     return row !== -1;
+  }
+
+  checkForWin(): boolean {
+    return this.winDetectionService.checkForWin(this.cells, this.lastDiscPlayed);
   }
 }
