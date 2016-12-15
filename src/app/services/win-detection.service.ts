@@ -1,15 +1,16 @@
 import { Location } from "../shared/location";
 import { Injectable } from "@angular/core";
+import {Disc} from "../shared/disc";
 
 @Injectable()
 export class WinDetectionService {
-  checkForWin(board: string[][], locationOfDiscPlayed: Location, color: string): boolean {
-    let testString: string = color + color + color + color;
+  checkForWin(board: string[][], disc: Disc): boolean {
+    let testString: string = disc.color + disc.color + disc.color + disc.color;
     let directionsToTest: string[] = [];
-    directionsToTest.push(this.createVerticalTest(board, locationOfDiscPlayed));
-    directionsToTest.push(this.createHorizontalTest(board, locationOfDiscPlayed));
-    directionsToTest.push(this.createDiagonalUpTest(board, locationOfDiscPlayed));
-    directionsToTest.push(this.createDiagonalDownTest(board, locationOfDiscPlayed));
+    directionsToTest.push(this.createVerticalTest(board, disc.location));
+    directionsToTest.push(this.createHorizontalTest(board, disc.location));
+    directionsToTest.push(this.createDiagonalUpTest(board, disc.location));
+    directionsToTest.push(this.createDiagonalDownTest(board, disc.location));
 
     return directionsToTest.reduce((result: boolean, stringToTest: string) => {
       return result || stringToTest.includes(testString);
