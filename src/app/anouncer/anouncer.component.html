@@ -1,3 +1,3 @@
-<div class="display" [@gameOver]="gameState.isBoardActive">
+<div class="display" [@gameOver]="gameState.isBoardActive" [style.background]="gameState.playerColor">
 	{{gameState.getDisplay()}}
 </div>

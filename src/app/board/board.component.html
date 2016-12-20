@@ -5,4 +5,4 @@
   </div>
 </div>
 
-<div *ngIf="gameState.isBoardActive && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="currentPlayer.color"></div>
+<div *ngIf="gameState.isBoardActive && discInPlayVisible" class="cell cursor" [style.top]="discInPlayLocation.top" [style.left]="discInPlayLocation.left" [style.background]="gameState.playerColor"></div>

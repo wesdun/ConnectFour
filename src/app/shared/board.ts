@@ -32,14 +32,14 @@ export class Board {
     this.cells[disc.location.column][disc.location.row] = disc.color;
   }
 
-  playDisc(column: number, color: string): number {
+  playDisc(column: number, color: string): boolean {
     let rowOfCellToChange: number = _.findLastIndex(this.cells[column], (cell: string) => this.cellIsEmpty(cell));
-    if (!this.rowIsValid(rowOfCellToChange)) return null;
+    if (!this.rowIsValid(rowOfCellToChange)) return false;
 
     let discPlayed: Disc = new Disc(new Location(column, rowOfCellToChange), color);
     this.setCell(discPlayed);
     this.lastDiscPlayed = discPlayed;
-    return rowOfCellToChange;
+    return true;
   }
 
   isFull(): boolean {

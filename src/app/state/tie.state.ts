@@ -6,6 +6,7 @@ export class TieState extends AbstractState {
     super();
     this.gameService = gameService;
     this.isBoardActive = false;
+    this.playerColor = "grey";
   }
 
   getDisplay(): string {

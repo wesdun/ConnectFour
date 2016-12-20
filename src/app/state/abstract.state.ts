@@ -1,16 +1,23 @@
 import {State} from "./state";
 import {GameService} from "../services/game.service";
+import { Board } from "../shared/board";
 
 export abstract class AbstractState implements State {
   isBoardActive: boolean;
-  protected gameService: GameService;
+  playerColor: string;
+  board: Board;
+  gameService: GameService;
 
   abstract getDisplay(): string;
 
   newGame(): void {
-    this.gameService.changeState(this.gameService.getPlayingState());
-    this.gameService.startGame();
+    this.board.clear();
+    this.gameService.changeState(this.gameService.getRandomPlayingState());
   }
 
-  takeTurn(column: number, color: string): void {}
+  takeTurn(column: number): void {}
+
+  endTurn(): void {}
+
+  handleWin(): void {}
 }

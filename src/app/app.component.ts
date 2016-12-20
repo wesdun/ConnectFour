@@ -2,8 +2,6 @@ import { Component } from "@angular/core";
 
 import { GameService } from "./services/game.service";
 import { State } from "./state/state";
-import { PlayerService } from "./services/player.service";
-import { Player } from "./shared/player";
 
 @Component({
   moduleId: module.id,
@@ -14,14 +12,11 @@ import { Player } from "./shared/player";
 
 export class AppComponent {
   private gameState: State;
-  private currentPlayer: Player;
 
-  constructor(private gameService: GameService,
-              private playerService: PlayerService) {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
     this.gameService.onStateChange().subscribe((gameState: State) => this.gameState = gameState);
-    this.playerService.onPlayerChange().subscribe((currentPlayer: Player) => this.currentPlayer = currentPlayer);
     this.startGame();
   }
 

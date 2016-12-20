@@ -1,8 +1,6 @@
 <div class="header">
   <div class="cf-btn" (click)="startGame()">New Game</div>
-  <div class="display" [style.background]="currentPlayer.color">
-    {{gameState.getDisplay()}}
-  </div>
+  <div class="display" [style.background]="gameState.playerColor"></div>
 </div>
 <div class="content">
   <cf-board></cf-board>

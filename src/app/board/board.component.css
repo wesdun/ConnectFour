@@ -7,8 +7,7 @@
   padding: 5px;
   width: 605px;
   margin: 0;
-  pointer-events: none;
-  box-shadow: 2px 2px 4px black;
+  cursor: pointer;
 }
 
 .active {
@@ -23,7 +22,6 @@
 
 .column:hover * {
   border-color: lightblue;
-  cursor: pointer;
 }
 
 .cell {
