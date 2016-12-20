@@ -1,0 +1,20 @@
+:host {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+
+.display {
+	position: relative;
+	top: -50%;
+	left: -50%;
+	font-family: "DejaVu Sans";
+	font-weight: bold;
+	font-size: 60px;
+	background: white;
+	border: 2px solid black;
+	border-radius: 10px;
+	pointer-events: none;
+	padding: 5px 10px;
+	box-shadow: black;
+}
