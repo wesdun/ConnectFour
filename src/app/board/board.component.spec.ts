@@ -1,5 +1,4 @@
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
-import Spy = jasmine.Spy;
 
 import { BoardComponent } from "app/board/board.component";
 import { GameService } from "app/services/game.service";

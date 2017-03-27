@@ -7,16 +7,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "build",
-    "baseUrl": "./src/"
+    "baseUrl": "./src/",
+    "lib": [ "es2015", "dom" ]
   },
   "filesGlob": [
     "src/**/*.ts",
-    "typings/browser.d.ts",
-    "typings/browser/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
+    "node_modules/@types/**/*.d.ts"
   ]
 }

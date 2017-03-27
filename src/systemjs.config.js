@@ -6,6 +6,8 @@
     'main': 'main.js',
     'rxjs': 'lib/rxjs',
     '@angular/core': 'lib/@angular/core/bundles/core.umd.js',
+    '@angular/animations': 'lib/@angular/animations/bundles/animations.umd.js',
+    '@angular/platform-browser/animations': 'lib/@angular/platform-browser/bundles/platform-browser-animations.umd.js',
     '@angular/common': 'lib/@angular/common/bundles/common.umd.js',
     '@angular/compiler': 'lib/@angular/compiler/bundles/compiler.umd.js',
     '@angular/platform-browser': 'lib/@angular/platform-browser/bundles/platform-browser.umd.js',
